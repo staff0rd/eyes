@@ -43,7 +43,7 @@ export class Game {
     init() {
         Analytics.buttonClick("rengenerate");
         const margin = 3;
-        const size = 60;
+        const size = 100;
         for (let y = 0; y < window.innerHeight; y+= margin + size)
         for (let x = 0; x < window.innerWidth; x+= margin + size) {
             const face = new Face(size);
