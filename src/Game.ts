@@ -2,11 +2,13 @@ import * as PIXI from "pixi.js";
 import { Config } from './Config';
 import { Analytics } from "./core/Analytics";
 import { Face } from './blocks/Face';
+import { Point } from './core/Point';
 
 export class Game {
     private pixi: PIXI.Application;
     private interactionHitBox: PIXI.Graphics;
     private config: Config;
+    private faces: Face[];
     private stage: PIXI.Container;
 
     constructor(config: Config, pixi: PIXI.Application) {
@@ -36,22 +38,25 @@ export class Game {
         this.interactionHitBox.height = window.innerHeight;
         this.interactionHitBox.interactive = true;
         this.interactionHitBox.on('pointertap', () => this.init());
+        this.interactionHitBox.on('pointermove', (e: PIXI.interaction.InteractionEvent) => {
+            this.faces.forEach(f => f.look(e.data.global));
+        });
         this.interactionHitBox.alpha = 0;
         this.pixi.stage.addChild(this.interactionHitBox);
     }
 
     init() {
         Analytics.buttonClick("rengenerate");
+        this.stage.removeChildren();
+        this.faces = [];
         const margin = 3;
         const size = 100;
         for (let y = 0; y < window.innerHeight; y+= margin + size)
         for (let x = 0; x < window.innerWidth; x+= margin + size) {
             const face = new Face(size);
+            this.faces.push(face);
             face.view.position.set(x, y);
             this.stage.addChild(face.view);
         }
-    }
-
-    draw() {
     }
 }
