@@ -1,5 +1,7 @@
 # eyes
 
+![eyes gif](https://media.giphy.com/media/kyQWkpCb0FKKNVXlFo/giphy.gif)
+
 ## demo
 
 <https://atqu.in/games/eyes/>
