@@ -10,6 +10,7 @@ export class Game {
     private config: Config;
     private faces: Face[];
     private stage: PIXI.Container;
+    private drag = false;
 
     constructor(config: Config, pixi: PIXI.Application) {
         this.pixi = pixi;
@@ -37,9 +38,15 @@ export class Game {
         this.interactionHitBox.width = window.innerWidth;
         this.interactionHitBox.height = window.innerHeight;
         this.interactionHitBox.interactive = true;
-        this.interactionHitBox.on('pointertap', () => this.init());
+        this.interactionHitBox.on('pointertap', () => {
+            if (!this.drag)
+                this.init();
+            this.drag = false;
+        });
+        this.interactionHitBox.on('pointerdown', () => this.drag = false)
         this.interactionHitBox.on('pointermove', (e: PIXI.interaction.InteractionEvent) => {
             this.faces.forEach(f => f.look(e.data.global));
+            this.drag = true;
         });
         this.interactionHitBox.alpha = 0;
         this.pixi.stage.addChild(this.interactionHitBox);
