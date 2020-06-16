@@ -16,6 +16,7 @@ export class App extends React.Component<AppProps, AppState> {
     getConfig() {
         const config = new Config();
         config.size = Browser.getQueryNumber("size", 100);
+        config.debug = Browser.getQueryBoolean("debug", false);
         return config;
     }
     

@@ -20,6 +20,10 @@ export class Rect {
     public get top() { return this.y1; }
     public get bottom() { return this.y2; }
     public get area() { return this.width * this.height }
+    public get centerX() { return (this.x2 - this.x1) / 2 }
+    public get centerY() { return (this.y2 - this.y1) / 2 }
+    public get rx() { return this.width / 2 }
+    public get ry() { return this.height / 2 }
 
     constructor(x: number, y: number, width: number, height: number) {
         this._x = x;

@@ -2,7 +2,8 @@ import { Colors } from "../core/Colors";
 import { Rect } from '../core/Rect';
 import * as PIXI from "pixi.js";
 import { Point } from '../core/Point';
-const {ShapeInfo, Intersection} = require("kld-intersections");
+const {ShapeInfo, Intersection, Point2D} = require("kld-intersections");
+import { Config } from '../Config';
 
 export class Eye {
     get pupilPosition() { return this.pupil.position; }
@@ -13,7 +14,9 @@ export class Eye {
     private pupilSize: number;
     private looking: PIXI.Graphics;
     private mask: PIXI.Graphics;
-    constructor(width: number, height: number, pupilSize: number) {
+    private config: Config;
+
+    constructor(width: number, height: number, pupilSize: number, config: Config) {
         this.pupilSize = pupilSize;
         this.rect = new Rect(0, 0, width, height);
         this.view = new PIXI.Container();
@@ -23,6 +26,9 @@ export class Eye {
         this.pupil = this.getPupil();
         this.looking = new PIXI.Graphics();
         this.view.addChild(this.background, this.pupil, this.mask);
+        if (config.debug)
+            this.view.addChild(this.looking);
+        this.config = config;
     }
 
     set(lookAt: Point) {
@@ -43,19 +49,38 @@ export class Eye {
             .endFill();
         return g;
     }
+
     look(at: PIXI.Point) {
-        var local = this.pupil.toLocal(at);
-        const ellipse = ShapeInfo.ellipse([this.rect.x, this.rect.y, this.rect.width/3, this.rect.height/3]);
-        const line = ShapeInfo.line([0, 0, local.x, local.y]);
-        const intersections = Intersection.intersect(ellipse, line);
+        var local = this.background.toLocal(at);
+
+        const ellipse = {
+            center: new Point2D(0, 0),
+            radiusX: this.rect.rx,
+            radiusY: this.rect.ry,
+        };
+        const line = {
+            p1: new Point2D(0, 0),
+            p2: new Point2D(local.x, local.y)
+        }
+        const intersections = Intersection.intersectEllipseLine(
+            ellipse.center, ellipse.radiusX, ellipse.radiusY,
+            line.p1, line.p2
+        );
+
         const point = intersections.points[0];
         if (point)
             this.pupil.position.set(point.x, point.y);
+        else
+            this.pupil.position.set(local.x, local.y);
+        
+        if (this.config.debug) {
+            this.looking
+                .clear()
+                .lineStyle(2, Colors.Red.C500)
+                .moveTo(0, 0)
+                .lineTo(local.x, local.y);
+        }
 
-        this.looking
-            .clear()
-            .lineStyle(2, Colors.Red.C500)
-            .moveTo(0, 0)
-            .lineTo(local.x, local.y);
+        return { rect: this.rect, ellipse, line, intersections };
     }
 }

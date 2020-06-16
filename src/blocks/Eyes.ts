@@ -3,6 +3,7 @@ import { Random } from '../core/Random';
 import { Eye } from "./Eye";
 import { Point } from '../core/Point';
 import * as gsap from "gsap";
+import { Config } from '../Config';
 
 export class Eyes {
     private size: number;
@@ -10,10 +11,16 @@ export class Eyes {
     private leftEye: Eye;
     private rightEye: Eye;
     private timeline: gsap.TimelineMax;
+    private debug: PIXI.Text;
+    private config: Config;
 
-    constructor(size: number) {
+    constructor(size: number, config: Config) {
         this.size = size;
         this.view = new PIXI.Container();
+        if (config.debug) {
+            this.debug = new PIXI.Text('Debug', { fontSize: 16 });
+        }
+        this.config = config;
         this.init();
     }
 
@@ -28,13 +35,15 @@ export class Eyes {
 
         const pupilSize = Random.between(2, 8) / 10;
 
-        this.leftEye = new Eye(eyeWidth/2, eyeHeight, pupilSize);
-        this.rightEye = new Eye(eyeWidth/2, eyeHeight, pupilSize);
+        this.leftEye = new Eye(eyeWidth/2, eyeHeight, pupilSize, this.config);
+        this.rightEye = new Eye(eyeWidth/2, eyeHeight, pupilSize, this.config);
 
         this.leftEye.view.position.set(this.size/2 - gap/2 - this.leftEye.view.width / 2, this.size/2);
         this.rightEye.view.position.set(this.size /2 + gap/2 + this.rightEye.view.width / 2, this.size/2);
 
         this.view.addChild(this.leftEye.view, this.rightEye.view);
+        if (this.debug)
+            this.view.addChild(this.debug);
 
         this.randomizePosition();
     }
@@ -59,10 +68,33 @@ export class Eyes {
         this.rightEye.set(position);
     }
 
+    toStringEllipse = ({ ellipse, rect, line, intersections }: any) => {
+            
+        var result = "" +
+        `\n\tellipse: cx: ${ellipse.center.x}, cy: ${ellipse.center.y}, rx: ${ellipse.radiusX}, ry: ${ellipse.radiusY}` +
+        `\n\trect: ${rect.x}, ${rect.y}, ${rect.width}, ${rect.height}` +
+        `\n\tline: ${line.p1.x}, ${line.p1.y}, ${line.p2.x}, ${line.p2.y}` +
+        `\n\tintersect: `;
+
+        if (intersections.points.length)
+            result += `${intersections.points[0].x}, ${intersections.points[0].y}`;
+        else
+            result += "None";
+        return result;
+    };
+
+
     look(at: PIXI.Point) {
         this.timeline && this.timeline.kill();
-        this.leftEye.look(at);
-        this.rightEye.look(at);
+        const left = this.leftEye.look(at);
+        const right = this.rightEye.look(at);
         this.randomizePosition();
+        
+        if (this.debug) {
+            this.debug.text = 
+`left: ${this.toStringEllipse(left)}
+right: ${this.toStringEllipse(right)}
+`;
+        }
     }
 }

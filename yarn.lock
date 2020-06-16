@@ -3704,13 +3704,6 @@ got@^7.0.0:
     url-parse-lax "^1.0.0"
     url-to-options "^1.0.1"
 
-gp-data-transformer@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/gp-data-transformer/-/gp-data-transformer-0.0.1.tgz#0e7b749002cb2a5f09064846c0e2c179edfcd8c1"
-  integrity sha512-FyIPRC8y6nRY9QX6hZhW3Qk+r2QD6r9a4JwoV7/C/bM4mjyQJLPFkojdrmu2811oU4za/jtO6q9U3P/u/DaIkw==
-  dependencies:
-    yargs "^13.2.4"
-
 graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.2.tgz#6f0952605d0140c1cfdb138ed005775b92d67b02"
@@ -5001,12 +4994,11 @@ kld-affine@^2.1.1:
   resolved "https://registry.yarnpkg.com/kld-affine/-/kld-affine-2.1.1.tgz#e28296585f305230eaad3b1e346d3ac5ca4c72b3"
   integrity sha512-NIS9sph8ZKdnQxZa5TcggaFs/Qr9zX3brFlGwE0+0Z4EzFIvAFuqLSwNeU4GkEpaX8ndh3ggGmWV7BPPcS3vjQ==
 
-kld-intersections@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/kld-intersections/-/kld-intersections-0.6.0.tgz#fbc3f1d4ed2de3cb40218c234007fe30d308946a"
-  integrity sha512-C03Ym09e4xtE8FefFP2Sr7/YwQE7JyEXL9yFfkWll7iQtloIee9ssnY9RYe3QSWDzbb8t8cY8G+0z1CuxTjeQg==
+kld-intersections@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/kld-intersections/-/kld-intersections-0.7.0.tgz#a6907c103553654e268c094701c72659b3cafb2f"
+  integrity sha512-/KuBU7Y5bRPGfc0yQ3QIoXPKqOQ6cBWDRl1XVMMa3pm4V6Ydbgy9e2fZoRxlSIU0gZSBt1c6gWLOzSGKbU8I3A==
   dependencies:
-    gp-data-transformer "^0.0.1"
     kld-affine "^2.1.1"
     kld-path-parser "^0.2.1"
     kld-polynomial "^0.3.0"
@@ -8304,7 +8296,7 @@ yargs@13.2.4:
     y18n "^4.0.0"
     yargs-parser "^13.1.0"
 
-yargs@^13.2.4, yargs@^13.3.0:
+yargs@^13.3.0:
   version "13.3.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-13.3.0.tgz#4c657a55e07e5f2cf947f8a366567c04a0dedc83"
   integrity sha512-2eehun/8ALW8TLoIl7MVaRUrg+yCnenu8B4kBlRxj3GJGDKU1Og7sMXPNm1BYyM1DOJmTZ4YeN/Nwxv+8XJsUA==

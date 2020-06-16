@@ -60,7 +60,7 @@ export class Game {
         const size = this.config.size;
         for (let y = 0; y < window.innerHeight; y+= margin + size)
         for (let x = 0; x < window.innerWidth; x+= margin + size) {
-            const face = new Face(size);
+            const face = new Face(size, this.config);
             this.faces.push(face);
             face.view.position.set(x, y);
             this.stage.addChild(face.view);

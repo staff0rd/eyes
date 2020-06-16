@@ -2,20 +2,24 @@ import * as PIXI from "pixi.js"
 import { Colors } from '../core/Colors';
 import { Eyes } from './Eyes';
 import { Point } from "../core/Point";
+import { Config } from "../Config";
 
 export class Face {
     view: PIXI.Container;
     private size: number;
     private eyes: Eyes;
-    constructor(size: number) {
+    private config: Config;
+
+    constructor(size: number, config: Config) {
         this.size = size;
+        this.config = config;
         this.view = new PIXI.Container();
         this.initBackground();
         this.initEyes();
     }
 
     private initEyes() {
-        this.eyes = new Eyes(this.size);
+        this.eyes = new Eyes(this.size, this.config);
         this.eyes.view.position.y = this.size / 2;
         this.eyes.view.pivot.y = this.size / 2;
         const mask = this.getMask();
